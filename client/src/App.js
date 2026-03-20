@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LoginRegister from "./components/LoginRegister";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./components/protectedRoutes/PrivateRoute";
 
 function App() {
   return (
@@ -15,7 +17,16 @@ function App() {
           }}
         />
         <Routes>
-          <Route path='/' element={<LoginRegister />} />
+          {/* PUBLIC ROUTES */}
+          <Route path='/signin' element={<LoginRegister />} />
+          <Route
+            path='/'
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
