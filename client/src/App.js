@@ -3,10 +3,13 @@ import { Toaster } from "react-hot-toast";
 import LoginRegister from "./components/LoginRegister";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/protectedRoutes/PrivateRoute";
+import Sidebar from "./components/sidebar/Sidebar";
+import Project from "./pages/Project";
+import Report from "./pages/Report";
 
 function App() {
   return (
-    <div className='App'>
+    <div className=''>
       <BrowserRouter>
         <Toaster
           position='top-right'
@@ -16,6 +19,7 @@ function App() {
             },
           }}
         />
+        <Sidebar />
         <Routes>
           {/* PUBLIC ROUTES */}
           <Route path='/signin' element={<LoginRegister />} />
@@ -27,6 +31,15 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path='/project'
+            element={
+              <PrivateRoute>
+                <Project />
+              </PrivateRoute>
+            }
+          />
+          <Route path='/report' element={<Report />} />
         </Routes>
       </BrowserRouter>
     </div>

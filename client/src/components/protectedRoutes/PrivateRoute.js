@@ -3,8 +3,10 @@ import { useAuth } from "../../context/authContext";
 import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
+  const { isAuthenticated, loading } = useAuth();
+  if(loading){
+    return <div>Loading...</div>
+  }
   return isAuthenticated ? children : <Navigate to='/signin' replace />;
 };
 

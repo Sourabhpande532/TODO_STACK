@@ -1,11 +1,20 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import API_URL from "../api/axiosHelper";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("asanaToken"));
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userToken = localStorage.getItem("asanaToken");
+    if (userToken) {
+      setToken(userToken);
+    }
+    setLoading(false);
+  }, []);
 
   const isAuthenticated = !!token;
 
@@ -26,6 +35,7 @@ const AuthProvider = ({ children }) => {
       const response = await API_URL.post("/api/signin", data);
       if (!response.data?.token) {
         toast.error("Invalid credential");
+        return false;
       }
       localStorage.setItem("asanaToken", response.data.token);
       setToken(response.data.token);
@@ -37,9 +47,14 @@ const AuthProvider = ({ children }) => {
       return false;
     }
   };
-  const logout = () => {};
+  const logout = () => {
+    localStorage.removeItem('asanaToken');
+    setToken(null)
+    toast.success("Logged out")
+  };
   return (
-    <AuthContext.Provider value={{ signup, signin, logout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ signup, signin, loading, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
