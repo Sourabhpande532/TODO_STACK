@@ -15,7 +15,6 @@ const AuthProvider = ({ children }) => {
     }
     setLoading(false);
   }, []);
-
   const isAuthenticated = !!token;
 
   const signup = async (data) => {
@@ -48,9 +47,9 @@ const AuthProvider = ({ children }) => {
     }
   };
   const logout = () => {
-    localStorage.removeItem('asanaToken');
-    setToken(null)
-    toast.success("Logged out")
+    localStorage.removeItem("asanaToken");
+    setToken(null);
+    toast.success("Logged out");
   };
   return (
     <AuthContext.Provider

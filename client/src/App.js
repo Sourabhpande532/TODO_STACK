@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LoginRegister from "./components/LoginRegister";
 import Dashboard from "./pages/Dashboard";
@@ -6,23 +6,29 @@ import PrivateRoute from "./components/protectedRoutes/PrivateRoute";
 import Sidebar from "./components/sidebar/Sidebar";
 import Project from "./pages/Project";
 import Report from "./pages/Report";
+import { useAuth } from "./context/authContext";
 
-function App() {
+function Layout() {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  const hideSidebar = location.pathname === "/signin";
+
   return (
-    <div className=''>
-      <BrowserRouter>
-        <Toaster
-          position='top-right'
-          toastOptions={{
-            style: {
-              fontSize: "1.4rem",
-            },
-          }}
-        />
-        <Sidebar />
+    <div style={{ display: "flex" }}>
+      {/* Sidebar */}
+      {isAuthenticated && !hideSidebar && <Sidebar />}
+
+      {/* Main Content */}
+      <div
+        style={{
+          flex: 1,
+          marginLeft: isAuthenticated && !hideSidebar ? "220px" : "0",
+          padding: "20px",
+        }}>
         <Routes>
-          {/* PUBLIC ROUTES */}
           <Route path='/signin' element={<LoginRegister />} />
+
           <Route
             path='/'
             element={
@@ -31,6 +37,7 @@ function App() {
               </PrivateRoute>
             }
           />
+
           <Route
             path='/project'
             element={
@@ -39,10 +46,27 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path='/report' element={<Report />} />
+
+          <Route
+            path='/report'
+            element={
+              <PrivateRoute>
+                <Report />
+              </PrivateRoute>
+            }
+          />
         </Routes>
-      </BrowserRouter>
+      </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Toaster position='top-right' />
+      <Layout />
+    </BrowserRouter>
   );
 }
 
