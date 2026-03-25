@@ -67,8 +67,12 @@ app.get("/auth/github/callback", async (req, res) => {
       },
     );
     const accessToken = tokenResponse.data.access_token;
+    res.cookie("access_asana_token", accessToken);
+    return res.redirect(`${process.env.FRONTEND_URL}/v2/profile/github`);
     console.log(accessToken);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 app.listen(PORT, () => {
