@@ -52,7 +52,7 @@ function LoginRegister() {
   };
 
   return (
-    <section className="auth-body">
+    <section className='auth-body'>
       <div
         // 4. Dynamic class: if isActive is true, add "active"
         className={`content justify-content-center align-items-center d-flex shadow-lg ${isActive ? "active" : ""}`}
@@ -113,7 +113,7 @@ function LoginRegister() {
               </button>
 
               <button
-                type='submit'
+                type='button'
                 className='oauth-btn github-btn'
                 onClick={githubLogin}>
                 <i className='fa-brands fa-github'></i> Continue with GitHub
@@ -175,14 +175,14 @@ function LoginRegister() {
             {/* OAuth Buttons */}
             <div className='oauth-container'>
               <button
-                type='submit'
+                type='button'
                 className='oauth-btn google-btn'
                 onClick={googleLogin}>
                 <i className='fa-brands fa-google'></i> Continue with Google
               </button>
 
               <button
-                type='submit'
+                type='button'
                 className='oauth-btn github-btn'
                 onClick={githubLogin}>
                 <i className='fa-brands fa-github'></i> Continue with GitHub

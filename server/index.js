@@ -43,7 +43,7 @@ console.log(process.env.CLIENT_ID);
 console.log(process.env.CLIENT_SECRET);
 
 app.get("/auth/github", (req, res) => {
-  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=user,repo,security_events`;
+  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user,repo,security_events`;
   // IF Somebudy call this routes redirect in this url
   res.redirect(githubAuthUrl);
 });
