@@ -29,9 +29,12 @@ function LoginRegister() {
     // window.location.href = "http://localhost:5000/auth/google";
   };
 
-  const githubLogin = (e) => {
-    e.preventDefault(); // Prevents '?' from appearing
-    // window.location.href = "http://localhost:5000/auth/github";
+  const authenticateViaOAuth = async (method) => {
+    try {
+      window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/${method}`;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const register = async (e) => {
@@ -115,7 +118,7 @@ function LoginRegister() {
               <button
                 type='button'
                 className='oauth-btn github-btn'
-                onClick={githubLogin}>
+                onClick={() => authenticateViaOAuth("github")}>
                 <i className='fa-brands fa-github'></i> Continue with GitHub
               </button>
             </div>
@@ -184,7 +187,7 @@ function LoginRegister() {
               <button
                 type='button'
                 className='oauth-btn github-btn'
-                onClick={githubLogin}>
+                onClick={() => authenticateViaOAuth("github")}>
                 <i className='fa-brands fa-github'></i> Continue with GitHub
               </button>
             </div>

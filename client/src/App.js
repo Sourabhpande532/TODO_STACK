@@ -7,6 +7,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Project from "./pages/Project";
 import Report from "./pages/Report";
 import { useAuth } from "./context/authContext";
+import OAuthSuccess from "./pages/OAuthSuccess";
 
 function Layout() {
   const { isAuthenticated } = useAuth();
@@ -37,6 +38,8 @@ function Layout() {
               </PrivateRoute>
             }
           />
+
+          <Route path='/oauth-success' element={<OAuthSuccess />} />
 
           <Route
             path='/project'

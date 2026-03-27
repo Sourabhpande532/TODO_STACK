@@ -8,13 +8,39 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   const userToken = localStorage.getItem("asanaToken");
+  //   if (userToken) {
+  //     setToken(userToken);
+  //   }
+  //   setLoading(false);
+  // }, []);
+
   useEffect(() => {
-    const userToken = localStorage.getItem("asanaToken");
-    if (userToken) {
-      setToken(userToken);
-    }
-    setLoading(false);
+    const checkAuth = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.REACT_APP_API_BASE_URL}/auth/me`,
+          {
+            credentials: "include",
+          },
+        );
+        const data = await res.json();
+        if (data.authenticated) {
+          setToken("oauth-user"); // just a flag
+        } else {
+          setToken(null);
+        }
+      } catch (err) {
+        setToken(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
   }, []);
+
   const isAuthenticated = !!token;
 
   const signup = async (data) => {
@@ -31,7 +57,9 @@ const AuthProvider = ({ children }) => {
   /* signup({name:"x",email:"y@gmail.com",password:"*****"}) */
   const signin = async (data) => {
     try {
-      const response = await API_URL.post("/api/signin", data);
+      const response = await API_URL.post("/api/signin", data, {
+        withCredentials: true,
+      });
       if (!response.data?.token) {
         toast.error("Invalid credential");
         return false;

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const fs = require("fs");
 const path = require("path");
 const filePath = path.resolve(__dirname, "./logs/log.txt");
@@ -22,9 +23,15 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  }),
+);
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api", require("./routes/auth"));
 
 // MONGO CONNECTION
@@ -48,6 +55,16 @@ app.get("/auth/github", (req, res) => {
   res.redirect(githubAuthUrl);
 });
 
+app.get("/auth/me", (req, res) => {
+  const token = req.cookies?.access_asana_token;
+
+  if (!token) {
+    return res.status(401).json({ authenticated: false });
+  }
+
+  return res.json({ authenticated: true });
+});
+
 app.get("/auth/github/callback", async (req, res) => {
   // This `code` we need to replace with our accesstoken..
   const { code } = req.query;
@@ -68,7 +85,7 @@ app.get("/auth/github/callback", async (req, res) => {
     );
     const accessToken = tokenResponse.data.access_token;
     res.cookie("access_asana_token", accessToken);
-    return res.redirect(`${process.env.FRONTEND_URL}/v2/profile/github`);
+    return res.redirect(`${process.env.FRONTEND_URL}`);
     console.log(accessToken);
   } catch (error) {
     res.status(500).json(error);
