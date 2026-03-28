@@ -49,6 +49,8 @@ app.get("/", (req, res) => {
 console.log(process.env.CLIENT_ID);
 console.log(process.env.CLIENT_SECRET);
 
+console.log("--------GITHUB_AUTH----------");
+
 app.get("/auth/github", (req, res) => {
   const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user,repo,security_events`;
   // IF Somebudy call this routes redirect in this url
@@ -89,6 +91,44 @@ app.get("/auth/github/callback", async (req, res) => {
     console.log(accessToken);
   } catch (error) {
     res.status(500).json(error);
+  }
+});
+console.log("---------GITHUB_AUTH-----------");
+console.log("---------GOOGLE_AUTH-----------");
+
+console.log("---------GOOGLE_AUTH-----------");
+app.get("/auth/google", (req, res) => {
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=http://localhost:${PORT}/auth/google/callback&response_type=code&scope=profile email`;
+  res.redirect(googleAuthUrl);
+});
+
+// In this below we'll get code. 
+app.get("/auth/google/callback", async (req, res) => {
+  const { code } = req.query;
+  if (!code) {
+    return res.status(400).send("Authorization code not provided");
+  }
+  let accessToken;
+  try {
+    const tokenResponse = await axios.post(
+      "https://oauth2.googleapis.com/token",
+      {
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        code,
+        grant_type: "authorization_code",
+        redirect_uri: `http://localhost:${PORT}/auth/google/callback`,
+      },
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      },
+    );
+    accessToken = tokenResponse.data.access_token;
+    res.cookie("access_token", accessToken);
+    // setSecureCookie(res, accessToken);
+    return res.redirect(`${process.env.FRONTEND_URL}/report`);
+  } catch (error) {
+    console.error(error);
   }
 });
 
