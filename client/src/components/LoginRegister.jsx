@@ -4,6 +4,7 @@ import "../style.css";
 
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
+import { Home } from "./Home";
 function LoginRegister() {
   const { signup, signin } = useAuth();
   const [form, setForm] = useState({
@@ -24,10 +25,6 @@ function LoginRegister() {
     setIsActive(false);
   };
 
-  const googleLogin = (e) => {
-    e.preventDefault(); // Prevents '?' from appearing
-    // window.location.href = "http://localhost:5000/auth/google";
-  };
 
   const authenticateViaOAuth = async (method) => {
     try {
@@ -111,14 +108,14 @@ function LoginRegister() {
               <button
                 type='button'
                 className='oauth-btn google-btn'
-                onClick={googleLogin}>
+                onClick={()=>authenticateViaOAuth("google")}>
                 <i className='fa-brands fa-google'></i> Continue with Google
               </button>
 
               <button
                 type='button'
                 className='oauth-btn github-btn'
-                onClick={() => authenticateViaOAuth("github")}>
+                onClick={() =>authenticateViaOAuth("github")}>
                 <i className='fa-brands fa-github'></i> Continue with GitHub
               </button>
             </div>
@@ -180,7 +177,7 @@ function LoginRegister() {
               <button
                 type='button'
                 className='oauth-btn google-btn'
-                onClick={googleLogin}>
+                onClick={()=>authenticateViaOAuth("google")}>
                 <i className='fa-brands fa-google'></i> Continue with Google
               </button>
 
