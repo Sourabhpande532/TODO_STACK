@@ -33,6 +33,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api", require("./routes/auth"));
+app.use('/api',require('./routes/project'))
 
 // MONGO CONNECTION
 mongoose
