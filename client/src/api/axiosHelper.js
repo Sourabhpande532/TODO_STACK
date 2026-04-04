@@ -9,4 +9,28 @@ const API_URL = axios.create({
   },
 });
 
+API_URL.interceptors.request.use((req) => {
+  const token = localStorage.getItem("asanaToken");
+  if (token) {
+    req.headers.Authorization = "Bearer " + token;
+  }
+  return req;
+});
+
+API_URL.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 403)
+    ) {
+      // remove token
+      localStorage.removeItem("asanaToken");
+      // redirect to login
+      window.location.href = "/signin";
+    }
+    return Promise.reject(error);
+  },
+);
+
 export default API_URL;
