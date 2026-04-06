@@ -4,7 +4,7 @@ import API_URL from "../api/axiosHelper";
 
 const Report = () => {
   const { data } = useFetch('http://localhost:5001/api/project');
-  console.log(data);
+  // console.log(data);
 
   return <div>Report</div>;
 };

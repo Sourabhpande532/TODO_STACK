@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
-  console.log(projects);
+  // console.log(projects);
 
   useEffect(() => {
     loadProjects();
