@@ -33,7 +33,8 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api", require("./routes/auth"));
-app.use('/api',require('./routes/project'))
+app.use("/api", require("./routes/project"));
+app.use("/auth", require("./routes/team"));
 
 // MONGO CONNECTION
 mongoose
@@ -103,7 +104,7 @@ app.get("/auth/google", (req, res) => {
   res.redirect(googleAuthUrl);
 });
 
-// In this below we'll get code. 
+// In this below we'll get code.
 app.get("/auth/google/callback", async (req, res) => {
   const { code } = req.query;
   if (!code) {
