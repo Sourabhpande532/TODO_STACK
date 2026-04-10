@@ -8,6 +8,7 @@ import Project from "./pages/Project";
 import Report from "./pages/Report";
 import { useAuth } from "./context/authContext";
 import OAuthSuccess from "./pages/OAuthSuccess";
+import { Team } from "./pages/Team";
 
 function Layout() {
   const { isAuthenticated } = useAuth();
@@ -58,6 +59,7 @@ function Layout() {
               </PrivateRoute>
             }
           />
+          <Route path="/team" element={<Team/>}/>
         </Routes>
       </div>
     </div>

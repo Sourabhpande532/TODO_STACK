@@ -16,9 +16,18 @@ const Sidebar = () => {
       <h2 style={styles.logo}>Workasana</h2>
 
       <nav style={styles.nav}>
-        <Link to="/" style={styles.link}>Dashboard</Link>
-        <Link to="/project" style={styles.link}>Project</Link>
-        <Link to="/report" style={styles.link}>Report</Link>
+        <Link to='/' style={styles.link}>
+          Dashboard
+        </Link>
+        <Link to='/project' style={styles.link}>
+          Project
+        </Link>
+        <Link to='/report' style={styles.link}>
+          Report
+        </Link>
+        <Link to='/team' style={styles.link}>
+          Team
+        </Link>
       </nav>
 
       <div style={styles.bottom}>
@@ -27,7 +36,9 @@ const Sidebar = () => {
             Logout
           </button>
         ) : (
-          <Link to="/signin" style={styles.link}>Login</Link>
+          <Link to='/signin' style={styles.link}>
+            Login
+          </Link>
         )}
       </div>
     </div>
