@@ -35,6 +35,7 @@ app.use(cookieParser());
 app.use("/api", require("./routes/auth"));
 app.use("/api", require("./routes/project"));
 app.use("/auth", require("./routes/team"));
+app.use("/auth", require("./routes/task"));
 
 // MONGO CONNECTION
 mongoose
