@@ -1,8 +1,23 @@
 const Task = require("../model/Tasks");
 
 exports.getAllTask = async (req, res) => {
+  const { status, team } = req.query;
+  let filter = {};
   try {
-  } catch (error) {}
+    if (status) {
+      filter.status = status;
+    }
+    if (team) {
+      filter.team = team;
+    }
+    let tasks = await Task.find(filter)
+      .populate("project", "name")
+      .populate("team", "name")
+      .populate("owners", "name");
+    res.json({ success: true, count: tasks.length, data: { tasks } });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 exports.createTask = async (req, res) => {
