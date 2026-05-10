@@ -81,3 +81,81 @@ const Dashboard = () => {
 };
 export default Dashboard;
 
+/* eslint-disable react-hooks/exhaustive-deps */
+// import { useEffect, useState } from "react";
+// import { useSearchParams } from "react-router-dom";
+// import API_URL from "../api/axiosHelper";
+
+// const Dashboard = () => {
+//   const [searchParams, setSearchParams] = useSearchParams();
+  
+//   // Sync state with URL initial values
+//   const [status, setStatus] = useState(searchParams.get("status") || "");
+//   const [tasks, setTasks] = useState([]);
+//   const [teams, setTeams] = useState([]);
+//   const [projects, setProjects] = useState([]);
+
+//   // 1. Fetch static filters ONLY once on mount
+//   useEffect(() => {
+//     const fetchFilters = async () => {
+//       try {
+//         const [teamRes, projectRes] = await Promise.all([
+//           API_URL.get("/auth/team"),
+//           API_URL.get("/api/project")
+//         ]);
+//         setTeams(teamRes.data.data.team);
+//         setProjects(projectRes.data.project);
+//       } catch (error) {
+//         console.error("Error fetching filters:", error);
+//       }
+//     };
+//     fetchFilters();
+//   }, []);
+
+//   // 2. Fetch tasks whenever status changes
+//   useEffect(() => {
+//     fetchTasks();
+//     // Update URL to match state
+//     setSearchParams({ status }, { replace: true });
+//   }, [status]);
+
+//   const fetchTasks = async () => {
+//     try {
+//       const res = await API_URL.get("/auth/filter/task", { 
+//         params: { status } 
+//       });
+//       setTasks(res.data.data.tasks);
+//     } catch (error) {
+//       console.error("Error fetching tasks:", error.message);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h2>Dashboard</h2>
+//       <select value={status} onChange={(e) => setStatus(e.target.value)}>
+//         <option value=''>All Status</option>
+//         <option value='To Do'>To Do</option>
+//         <option value='Completed'>Completed</option>
+//         <option value='Blocked'>Blocked</option>
+//         <option value='In Progress'>In Progress</option>
+//       </select>
+
+//       <section>
+//         {tasks.length > 0 ? (
+//           tasks.map((each) => (
+//             <div key={each._id}>
+//               <p>Name: {each.name}</p>
+//               <p>Status: {each.status}</p>
+//               <div className='border-bottom'></div>
+//             </div>
+//           ))
+//         ) : (
+//           <p>No tasks found.</p>
+//         )}
+//       </section>
+//     </div>
+//   );
+// };
+
+// export default Dashboard;
